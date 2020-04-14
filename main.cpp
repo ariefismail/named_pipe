@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <cstdint>
 #include <fcntl.h>
 #include <chrono>
@@ -15,8 +16,13 @@
 
 int main(int argc, char *argv[])
 {
-    // std::cout<<"hehe\n";
+    
     CNamedPipe np("txFifo","rxFifo");
+    
+    char keyData[10];
+    // std::cin>>std::setw(sizeof(keyData))>>keyData;
+    // std::cout<<keyData;
+    np.Connect();
     return 0;
 
 }
