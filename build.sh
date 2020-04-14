@@ -1,0 +1,1 @@
+g++ -pthread main.cpp NamedPipe.cpp -o namedPipe.out
