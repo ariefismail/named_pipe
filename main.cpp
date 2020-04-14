@@ -15,7 +15,8 @@
 
 int main(int argc, char *argv[])
 {
-    CNamedPipe("TxFifo",O_WRONLY);
+    // std::cout<<"hehe\n";
+    CNamedPipe np("txFifo","rxFifo");
     return 0;
 
 }
