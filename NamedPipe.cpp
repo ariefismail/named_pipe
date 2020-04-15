@@ -55,8 +55,8 @@ void CNamedPipe::Connect()
 {
     if (m_isOpen)
         return;
-    m_isOpen.store(true);
-    std::cout<<"isopen: "<<m_isOpen<<'\n';
+    // m_isOpen.store(true);
+    m_isOpen = true;
     m_txThread = std::thread(&CNamedPipe::executeTx, this);
     m_rxThread = std::thread(&CNamedPipe::executeRx, this);
 }
@@ -90,15 +90,13 @@ void CNamedPipe::executeRx()
 
     int count;
     char data[10];
-    memset(data,0,sizeof(data));
+    memset(data, 0, sizeof(data));
     struct pollfd fds;
     fds.fd = m_rxFd;
     fds.events = POLLIN;
-    std::cout<<m_isOpen<<'\n';
-    std::cout<<"hehe\n";
     while (m_isOpen)
     {
-        switch (poll(&fds, 1, 100))
+        switch (poll(&fds, 1, 1000))
         {
         case -1:
             std::perror("rx thread error");
@@ -109,12 +107,16 @@ void CNamedPipe::executeRx()
             break;
 
         default:
-            count=read(m_rxFd,data,10);
-            if(count<0)
+            count = read(m_rxFd, data, 10);
+            if (count < 0)
                 std::perror("read error");
-            else
-                printf("%s,",data);
-            memset(data,0,sizeof(data));
+            else if (count > 0)
+            {
+                // for (int i = 0; i < count; i++)
+                //     printf("%c", data[i]);
+                // putchar('\n');
+            }
+            memset(data, 0, sizeof(data));
             break;
         }
     }

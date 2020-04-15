@@ -23,6 +23,10 @@ int main(int argc, char *argv[])
     // std::cin>>std::setw(sizeof(keyData))>>keyData;
     // std::cout<<keyData;
     np.Connect();
+    while(1)
+    {
+        std::this_thread::sleep_for(std::chrono::microseconds(100));
+    }
     return 0;
 
 }
